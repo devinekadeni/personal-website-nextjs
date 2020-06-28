@@ -20,6 +20,15 @@ export const DesktopWrapper = styled.div`
   padding: 0 90px 0 40px;
   height: 108px;
 
+  * {
+    ${(props) =>
+      props.isDarkTheme &&
+      `
+        color: lightgray !important;
+        stroke: lightgray !important;
+      `}
+  }
+
   @media screen and (max-width: 480px) {
     padding: 16px 24px;
     position: relative;

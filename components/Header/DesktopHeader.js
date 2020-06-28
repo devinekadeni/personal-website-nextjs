@@ -6,11 +6,12 @@ const Header = ({
   refList: { aboutEl, skillsEl, contactEl } = {},
   isScrollDown,
   handleBarMenu,
+  isDarkTheme,
 }) => {
   const barMenuStyle = isScrollDown ? 'traverse-right' : 'traverse-left'
 
   return (
-    <DesktopWrapper>
+    <DesktopWrapper isDarkTheme={isDarkTheme}>
       <h2>DE</h2>
       <Navigation>
         <button className={barMenuStyle} onClick={handleScrollIntoView(aboutEl)}>
@@ -38,6 +39,7 @@ const Header = ({
 
 Header.defaultProps = {
   isMobile: false,
+  isDarkTheme: false,
 }
 
 Header.propTypes = {
@@ -50,6 +52,7 @@ Header.propTypes = {
   }).isRequired,
   isScrollDown: PropTypes.bool.isRequired,
   isMobile: PropTypes.bool,
+  isDarkTheme: PropTypes.bool,
 }
 
 export default Header

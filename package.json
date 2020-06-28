@@ -1,12 +1,16 @@
 {
   "name": "personal-website-nextjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Devin's personal website",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devinekadeni/personal-website-nextjs.git"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -w server.js server.js localhost",
     "build": "next build",
-    "start": "NODE_ENV=production node start"
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",

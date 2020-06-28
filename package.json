@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "nodemon -w server.js server.js localhost",
     "build": "next build",
     "start": "next start"
   },
@@ -14,6 +14,8 @@
   "dependencies": {
     "@sendgrid/mail": "^7.2.1",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
     "next": "^9.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

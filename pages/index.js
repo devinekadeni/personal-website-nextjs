@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -91,29 +92,34 @@ const Index = ({ isMobile }) => {
   }
 
   return (
-    <Wrapper>
-      <div className="header-section">
-        <Header
-          handleScrollIntoView={handleScrollIntoView}
-          refList={{ aboutEl, skillsEl, contactEl }}
-          isScrollDown={isScrollDown}
-          handleBarMenu={setIsScrollDown}
-          isDarkTheme={isDarkTheme}
-          isMobile={isMobile}
-        />
-      </div>
-      <div className="content-section">
-        <About
-          ref={aboutEl}
-          handleScrollIntoView={handleScrollIntoView(contactEl)}
-          isMobile={isMobile}
-        />
-        <Skills ref={skillsEl} />
-        <MessageForm ref={contactEl} />
-        <ContactMe />
-        {!isMobile && socmedShown && <SocialMedia isFloating />}
-      </div>
-    </Wrapper>
+    <>
+      <Head>
+        <title>Devin Ekadeni</title>
+      </Head>
+      <Wrapper>
+        <div className="header-section">
+          <Header
+            handleScrollIntoView={handleScrollIntoView}
+            refList={{ aboutEl, skillsEl, contactEl }}
+            isScrollDown={isScrollDown}
+            handleBarMenu={setIsScrollDown}
+            isDarkTheme={isDarkTheme}
+            isMobile={isMobile}
+          />
+        </div>
+        <div className="content-section">
+          <About
+            ref={aboutEl}
+            handleScrollIntoView={handleScrollIntoView(contactEl)}
+            isMobile={isMobile}
+          />
+          <Skills ref={skillsEl} />
+          <MessageForm ref={contactEl} />
+          <ContactMe />
+          {!isMobile && socmedShown && <SocialMedia isFloating />}
+        </div>
+      </Wrapper>
+    </>
   )
 }
 

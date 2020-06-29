@@ -11,6 +11,14 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
+  server.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production' && !req.secure) {
+      res.redirect('https://' + req.headers.host + req.url)
+    } else {
+      next()
+    }
+  })
+
   server.use(express.json())
   server.use(helmet())
 

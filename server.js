@@ -11,6 +11,7 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
+  server.enable('trust proxy')
   server.use((req, res, next) => {
     if (process.env.NODE_ENV === 'production' && !req.secure) {
       res.redirect('https://' + req.headers.host + req.url)

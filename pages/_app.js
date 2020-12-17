@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { createGlobalStyle } from 'styled-components'
+import useWindowSize from 'utils/hooks/useWindowSize'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -35,10 +36,13 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function MyApp({ Component, pageProps }) {
+  const windowSize = useWindowSize()
+  const isMobile = windowSize.width <= 600
+
   return (
     <>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <Component {...pageProps} isMobile={isMobile} />
     </>
   )
 }

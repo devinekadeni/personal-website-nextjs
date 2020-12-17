@@ -8,7 +8,6 @@ import Skills from 'components/Skills'
 import MessageForm from 'components/MessageForm'
 import ContactMe from 'components/ContactMe'
 import SocialMedia from 'components/SocialMedia'
-import isMobile from 'utils/isMobile'
 
 const Wrapper = styled.div`
   position: relative;
@@ -121,10 +120,6 @@ const Index = ({ isMobile }) => {
       </Wrapper>
     </>
   )
-}
-
-export function getServerSideProps({ req }) {
-  return { props: { isMobile: isMobile(req) } }
 }
 
 Index.defaultProps = {

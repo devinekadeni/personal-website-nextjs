@@ -116,7 +116,7 @@ const MessageForm = (_props, ref) => {
       e.target.name.focus()
 
       axios({
-        url: '/api/email-send',
+        url: '/api/email',
         method: 'POST',
         data: {
           name: form.name,

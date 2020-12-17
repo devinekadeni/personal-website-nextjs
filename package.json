@@ -8,9 +8,9 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -w server.js server.js localhost",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "next start"
   },
   "keywords": [],
   "author": "",

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import SocialMedia from 'components/SocialMedia'
 
@@ -136,7 +137,7 @@ const Footer = styled.div`
   }
 `
 
-const ContactMe = () => {
+const ContactMe = ({ email, phoneNumber, socialMedia }) => {
   const yearCreated = 2019
   const currentYear = new Date().getFullYear()
   const displayYear =
@@ -147,18 +148,31 @@ const ContactMe = () => {
       <h2>Hi, let&apos;s build something amazing together.</h2>
       <SectionInfo>
         <h5>need help?</h5>
-        <label htmlFor="email">devinekadeni@gmail.com</label>
+        <label htmlFor="email">{email}</label>
       </SectionInfo>
       <SectionInfo>
         <h5>feel like talking?</h5>
-        <label htmlFor="email">(+62)8-78-8125-7525</label>
+        <label htmlFor="email">{phoneNumber}</label>
       </SectionInfo>
       <Footer className="footer-qs">
         <label htmlFor="copyright">© {displayYear} DEVIN EKADENI</label>
-        <SocialMedia />
+        <SocialMedia data={socialMedia} />
       </Footer>
     </Wrapper>
   )
+}
+
+ContactMe.propTypes = {
+  email: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  socialMedia: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })
+  ),
 }
 
 export default ContactMe

@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import axios from 'axios'
+
 import Header from 'components/Header'
 import About from 'components/About'
 import Skills from 'components/Skills'
@@ -24,10 +26,11 @@ const Wrapper = styled.div`
   }
 `
 
-const Index = ({ isMobile }) => {
+const Index = ({ isMobile, skillData, contactData }) => {
   const [socmedShown, setSocmedShown] = useState(true)
   const [isScrollDown, setIsScrollDown] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(false)
+
   const aboutEl = useRef(null)
   const skillsEl = useRef(null)
   const contactEl = useRef(null)
@@ -111,23 +114,94 @@ const Index = ({ isMobile }) => {
             ref={aboutEl}
             handleScrollIntoView={handleScrollIntoView(contactEl)}
             isMobile={isMobile}
+            data={{
+              linkedinUrl:
+                contactData.socialMedia?.find((val) => val.code === 'LINKEDIN')?.url ||
+                '',
+              profilePhoto: contactData.profilePhoto,
+              name: contactData.name,
+            }}
           />
-          <Skills ref={skillsEl} />
+          <Skills ref={skillsEl} data={skillData} />
           <MessageForm ref={contactEl} />
-          <ContactMe />
-          {!isMobile && socmedShown && <SocialMedia isFloating />}
+          <ContactMe
+            email={contactData.email}
+            phoneNumber={contactData.phoneNumber}
+            socialMedia={contactData.socialMedia}
+          />
+          {!isMobile && socmedShown && (
+            <SocialMedia isFloating data={contactData.socialMedia} />
+          )}
         </div>
       </Wrapper>
     </>
   )
 }
 
+export async function getStaticProps() {
+  try {
+    const { data: skillData } = await axios.get(`${process.env.API_HOST}/tech-stacks`)
+    const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
+
+    return {
+      props: {
+        skillData: skillData,
+        contactData: contactData.data,
+      },
+    }
+  } catch (error) {
+    return {
+      props: {
+        skillData: [],
+        contactData: {
+          name: '',
+          email: '',
+          phoneNumber: '',
+          socialMedia: [],
+        },
+      },
+    }
+  }
+}
+
 Index.defaultProps = {
   isMobile: false,
+  skillData: [],
+  contactData: {
+    name: '',
+    profilePhoto: '',
+    email: '',
+    phoneNumber: '',
+    socialMedia: [],
+  },
 }
 
 Index.propTypes = {
   isMobile: PropTypes.bool,
+  skillData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string,
+      logo: PropTypes.shape({
+        name: PropTypes.string,
+        url: PropTypes.string,
+      }),
+    })
+  ),
+  contactData: PropTypes.shape({
+    name: PropTypes.string,
+    profilePhoto: PropTypes.string,
+    email: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    socialMedia: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        code: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+      })
+    ),
+  }),
 }
 
 export default Index

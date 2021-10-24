@@ -1,44 +1,7 @@
 import { forwardRef } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import SkillItem from './SkillItem'
-
-const SKILLS_LIST = [
-  {
-    id: 1,
-    name: 'HTML',
-    icon: '/html.png',
-  },
-  {
-    id: 2,
-    name: 'CSS',
-    icon: '/css.png',
-  },
-  {
-    id: 3,
-    name: 'Javascript',
-    icon: '/javascript.png',
-  },
-  {
-    id: 4,
-    name: 'React',
-    icon: '/react.png',
-  },
-  {
-    id: 5,
-    name: 'NodeJS',
-    icon: '/nodejs.png',
-  },
-  {
-    id: 6,
-    name: 'Webpack',
-    icon: '/webpack.png',
-  },
-  {
-    id: 7,
-    name: 'ExpressJS',
-    icon: '/express.png',
-  },
-]
 
 const Wrapper = styled.div`
   display: flex;
@@ -114,7 +77,7 @@ const IconList = styled.div`
   }
 `
 
-const Skills = (_props, ref) => {
+const Skills = ({ data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <h2>Technology that i used</h2>
@@ -125,12 +88,25 @@ const Skills = (_props, ref) => {
         risen, and we as a programmer should adapt to it
       </p>
       <IconList>
-        {SKILLS_LIST.map(({ id, icon, name }) => (
-          <SkillItem key={id} icon={icon} name={name} />
-        ))}
+        {data.map(({ id, name, logo }) => {
+          return <SkillItem key={id} icon={logo} name={name} />
+        })}
       </IconList>
     </Wrapper>
   )
+}
+
+Skills.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string,
+      logo: PropTypes.shape({
+        name: PropTypes.string,
+        url: PropTypes.string,
+      }),
+    })
+  ),
 }
 
 export default forwardRef(Skills)

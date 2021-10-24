@@ -186,13 +186,13 @@ const RightSection = styled.div`
   }
 `
 
-const About = ({ handleScrollIntoView }, ref) => {
+const About = ({ handleScrollIntoView, data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <LeftSection>
         <h5>Hello there,</h5>
         <h1>
-          I&apos;m <span>Devin Ekadeni.</span>
+          I&apos;m <span>{data.name}.</span>
         </h1>
         <p>
           A passionate web developer who will solve you problems and <b>‘objectify’</b>
@@ -201,11 +201,7 @@ const About = ({ handleScrollIntoView }, ref) => {
         </p>
         <p>
           If you want to know more about me you can find me on my&nbsp;
-          <a
-            href="https://www.linkedin.com/in/vdevinekadeni"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={data.linkedinUrl} target="_blank" rel="noopener noreferrer">
             linkedin
           </a>
           .
@@ -215,14 +211,27 @@ const About = ({ handleScrollIntoView }, ref) => {
       </LeftSection>
       <RightSection>
         <div />
-        <img src="/profile_photo.jpg" alt="profile_photo" />
+        <img src={data.profilePhoto} alt="profile_photo" />
       </RightSection>
     </Wrapper>
   )
 }
 
+About.defaultProps = {
+  data: {
+    linkedinUrl: '',
+    profilePhoto: '',
+    name: '',
+  },
+}
+
 About.propTypes = {
   handleScrollIntoView: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    linkedinUrl: PropTypes.string,
+    profilePhoto: PropTypes.string,
+    name: PropTypes.string,
+  }),
 }
 
 export default forwardRef(About)

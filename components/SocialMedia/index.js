@@ -5,43 +5,23 @@ import { Github } from '@styled-icons/fa-brands/Github'
 import { Linkedin } from '@styled-icons/fa-brands/Linkedin'
 import { Facebook } from '@styled-icons/fa-brands/Facebook'
 
-const SOCIAL_MEDIA_LIST = [
-  {
-    id: 1,
-    name: 'github',
-    url: 'https://github.com/devinekadeni',
-    icon: Github,
-  },
-  {
-    id: 2,
-    name: 'linkedin',
-    url: 'https://www.linkedin.com/in/vdevinekadeni/',
-    icon: Linkedin,
-  },
-  {
-    id: 3,
-    name: 'facebook',
-    url: 'https://www.facebook.com/devin.ekadeni/',
-    icon: Facebook,
-  },
-  {
-    id: 4,
-    name: 'instagram',
-    url: 'https://www.instagram.com/devinekadeni/',
-    icon: Instagram,
-  },
-]
+const SOCIAL_MEDIA_ICON = {
+  GITHUB: Github,
+  LINKEDIN: Linkedin,
+  FACEBOOK: Facebook,
+  INSTAGRAM: Instagram,
+}
 
-const SocialMedia = (props) => {
-  const { isFloating, className } = props
-
+const SocialMedia = ({ data, isFloating, className }) => {
   const handleClickIcon = (url) => () => window.open(url)
 
   return (
     <Wrapper isVertical={isFloating} className={className}>
-      {SOCIAL_MEDIA_LIST.map((socMed) => (
-        <socMed.icon key={socMed.id} onClick={handleClickIcon(socMed.url)} />
-      ))}
+      {data.map((socMed) => {
+        const SocmedIcon = SOCIAL_MEDIA_ICON[socMed.code]
+
+        return <SocmedIcon key={socMed.id} onClick={handleClickIcon(socMed.url)} />
+      })}
     </Wrapper>
   )
 }
@@ -50,12 +30,21 @@ SocialMedia.defaultProps = {
   isFloating: false,
   className: '',
   style: {},
+  data: [],
 }
 
 SocialMedia.propTypes = {
   isFloating: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })
+  ),
 }
 
 export default SocialMedia

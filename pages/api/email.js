@@ -1,3 +1,4 @@
+const axios = require('axios')
 const sgMail = require('@sendgrid/mail')
 
 async function postEmail(req, res) {
@@ -5,8 +6,10 @@ async function postEmail(req, res) {
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
+  const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
+
   const msg = {
-    to: 'devinekadeni@gmail.com',
+    to: contactData.data.email,
     from: email,
     subject: `Website message from ${name}`,
     text: 'website',

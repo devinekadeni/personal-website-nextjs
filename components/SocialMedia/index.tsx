@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Instagram } from '@styled-icons/fa-brands/Instagram'
 import { Github } from '@styled-icons/fa-brands/Github'
@@ -12,8 +11,23 @@ const SOCIAL_MEDIA_ICON = {
   INSTAGRAM: Instagram,
 }
 
-const SocialMedia = ({ data, isFloating, className }) => {
-  const handleClickIcon = (url) => () => window.open(url)
+export type SocialMediaCode = 'GITHUB' | 'LINKEDIN' | 'FACEBOOK' | 'INSTAGRAM'
+
+export type SocialMediaItem = {
+  id: number
+  code: SocialMediaCode
+  name: string
+  url: string
+}
+
+type Props = {
+  data: SocialMediaItem[]
+  isFloating?: boolean
+  className?: string
+}
+
+const SocialMedia:React.FC<Props> = ({ data, isFloating, className }) => {
+  const handleClickIcon = (url:string) => () => window.open(url)
 
   return (
     <Wrapper isVertical={isFloating} className={className}>
@@ -24,27 +38,6 @@ const SocialMedia = ({ data, isFloating, className }) => {
       })}
     </Wrapper>
   )
-}
-
-SocialMedia.defaultProps = {
-  isFloating: false,
-  className: '',
-  style: {},
-  data: [],
-}
-
-SocialMedia.propTypes = {
-  isFloating: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      code: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ),
 }
 
 export default SocialMedia
@@ -109,6 +102,6 @@ const horizontalStyle = `
   }
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isVertical?: boolean }>`
   ${(props) => (props.isVertical ? verticalStyle : horizontalStyle)};
 `

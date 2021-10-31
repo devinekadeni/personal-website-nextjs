@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import { useState, useEffect, useRef, ChangeEventHandler } from 'react'
 import styled from 'styled-components'
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ fieldWidth: number, isError: boolean }>`
   font-family: 'Titillium Web';
   font-size: 24px;
   font-weight: bold;
@@ -65,12 +64,20 @@ const HiddenText = styled.span`
   }
 `
 
-const TextField = ({ placeholder, name, value, onChange, isError }) => {
+type Props = {
+  placeholder: string
+  name: string
+  value: string
+  onChange: ChangeEventHandler<HTMLInputElement>
+  isError: boolean
+}
+
+const TextField:React.FC<Props> = ({ placeholder, name, value, onChange, isError }) => {
   const [inputWidth, setInputWidth] = useState(0)
-  const divEl = useRef(null)
+  const divEl = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const textWidth = divEl.current.getBoundingClientRect().width
+    const textWidth = divEl?.current?.getBoundingClientRect().width || 0
     setInputWidth(textWidth)
   }, [value])
 
@@ -97,20 +104,6 @@ const TextField = ({ placeholder, name, value, onChange, isError }) => {
       <HiddenText ref={divEl}>{hiddenText}</HiddenText>
     </>
   )
-}
-
-TextField.defaultProps = {
-  value: '',
-  name: 'input-field',
-  isError: false,
-}
-
-TextField.propTypes = {
-  value: PropTypes.string,
-  name: PropTypes.string,
-  isError: PropTypes.bool,
-  placeholder: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 export default TextField

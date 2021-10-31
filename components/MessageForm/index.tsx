@@ -89,31 +89,50 @@ const StyledForm = styled.form`
   }
 `
 
-const MessageForm = (_props, ref) => {
-  const [form, setForm] = useState({ name: '', message: '', email: '' })
+type FormMessageType = {
+  name: string
+  message: string
+  email: string
+}
+
+const MessageForm:React.ForwardRefRenderFunction<HTMLFormElement> = (_props, ref) => {
+  const [form, setForm] = useState<FormMessageType>({ name: '', message: '', email: '' })
   const [inputError, setInputError] = useState('')
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+
     setForm({ ...form, [name]: value })
   }
 
-  const validateForm = (e) => {
-    for (const val in form) {
+  const validateForm = (e: React.FormEvent<HTMLFormElement>) => {
+    let val: keyof FormMessageType
+
+    for (val in form as FormMessageType) {
       if (!form[val]) {
         setInputError(val)
-        e.target[val].focus()
+        const target = e.target as typeof e.target & {
+          name: HTMLInputElement
+          message: HTMLInputElement
+          email: HTMLInputElement
+        }
+        target[val].focus()
         return false
       }
     }
     return true
   }
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (validateForm(e)) {
       setForm({ name: '', message: '', email: '' })
-      e.target.name.focus()
+      const target = e.target as typeof e.target & {
+        name: HTMLInputElement
+        message: HTMLInputElement
+        email: HTMLInputElement
+      }
+      target.message.focus()
 
       axios({
         url: '/api/email',

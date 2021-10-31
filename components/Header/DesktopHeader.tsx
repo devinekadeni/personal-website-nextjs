@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types'
+import { HeaderProps } from '.'
 import { DesktopWrapper, Navigation, StyledBarMenu } from './Header.sc'
 
-const Header = ({
-  handleScrollIntoView = () => {},
+const Header:React.FC<HeaderProps> = ({
+  handleScrollIntoView,
   refList: { aboutEl, skillsEl, contactEl } = {},
-  isScrollDown,
-  handleBarMenu,
-  isDarkTheme,
+  isScrollDown = false,
+  handleBarMenu = () => {},
+  isDarkTheme = false,
 }) => {
   const barMenuStyle = isScrollDown ? 'traverse-right' : 'traverse-left'
 
@@ -35,24 +35,6 @@ const Header = ({
       <StyledBarMenu onToggle={() => handleBarMenu(false)} isScrollDown={isScrollDown} />
     </DesktopWrapper>
   )
-}
-
-Header.defaultProps = {
-  isMobile: false,
-  isDarkTheme: false,
-}
-
-Header.propTypes = {
-  handleScrollIntoView: PropTypes.func.isRequired,
-  handleBarMenu: PropTypes.func.isRequired,
-  refList: PropTypes.shape({
-    aboutEl: PropTypes.object,
-    skillsEl: PropTypes.object,
-    contactEl: PropTypes.object,
-  }).isRequired,
-  isScrollDown: PropTypes.bool.isRequired,
-  isMobile: PropTypes.bool,
-  isDarkTheme: PropTypes.bool,
 }
 
 export default Header

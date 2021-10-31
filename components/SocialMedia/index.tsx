@@ -20,13 +20,13 @@ export type SocialMediaItem = {
   url: string
 }
 
-type Props = {
+export type SocialMediaProps = {
   data: SocialMediaItem[]
   isFloating?: boolean
   className?: string
 }
 
-const SocialMedia:React.FC<Props> = ({ data, isFloating, className }) => {
+const SocialMedia:React.FC<SocialMediaProps> = ({ data, isFloating, className }) => {
   const handleClickIcon = (url:string) => () => window.open(url)
 
   return (

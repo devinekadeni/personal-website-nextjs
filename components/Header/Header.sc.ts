@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
-import BarMenu from 'icons/BarMenu'
-import SocialMedia from 'components/SocialMedia'
+import BarMenu, { BarMenuProps } from 'icons/BarMenu'
+import SocialMedia, { SocialMediaProps } from 'components/SocialMedia'
 
 const traverseRight = keyframes`
   0% { transform: translateX(0px); }
@@ -12,7 +12,7 @@ const traverseLeft = keyframes`
   100% { transform: translateX(0px); }
 `
 
-export const DesktopWrapper = styled.div`
+export const DesktopWrapper = styled.div<{ isDarkTheme: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -140,7 +140,7 @@ export const StyledBarMenu = styled(BarMenu)`
 
 // Mobile
 
-export const StyledBarMenuMobile = styled(BarMenu)`
+export const StyledBarMenuMobile = styled(BarMenu)<BarMenuProps>`
   z-index: 1;
 `
 
@@ -186,7 +186,7 @@ export const MenuWrapper = styled.div`
   }
 `
 
-export const MobileWrapper = styled.div`
+export const MobileWrapper = styled.div<{ isMenuShown: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -207,7 +207,9 @@ export const MobileWrapper = styled.div`
   }
 `
 
-export const StyledSocialMedia = styled(SocialMedia)`
+export const StyledSocialMedia = styled(SocialMedia)<
+  { hidden: boolean } & SocialMediaProps
+>`
   z-index: 1;
   top: 40%;
   transition: opacity 0.7s;

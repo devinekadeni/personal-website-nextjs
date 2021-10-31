@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import { HeaderProps } from '.'
 import {
   MobileWrapper,
   StyledBarMenuMobile,
@@ -7,13 +7,14 @@ import {
   MenuWrapper,
 } from './Header.sc'
 
-const MobileHeader = ({
+const MobileHeader:React.FC<HeaderProps> = ({
   handleScrollIntoView,
   refList: { aboutEl, skillsEl, contactEl } = {},
+  data
 }) => {
   const [isMenuShown, setIsMenuShown] = useState(false)
 
-  const handleSelectDirectory = (el) => () => {
+  const handleSelectDirectory = (el?: React.Ref<HTMLDivElement>) => () => {
     setIsMenuShown(false)
     handleScrollIntoView(el)()
   }
@@ -23,9 +24,11 @@ const MobileHeader = ({
       <h2>DE</h2>
       <StyledBarMenuMobile
         isMenuBarForm={isMenuShown}
-        onToggle={() => setIsMenuShown(!isMenuShown)}
+        onToggle={() => {
+          setIsMenuShown(!isMenuShown)
+        }}
       />
-      <StyledSocialMedia isFloating hidden={!isMenuShown} />
+      <StyledSocialMedia isFloating hidden={!isMenuShown} data={data} />
       <MenuWrapper>
         <div>
           <button
@@ -65,15 +68,6 @@ const MobileHeader = ({
       </MenuWrapper>
     </MobileWrapper>
   )
-}
-
-MobileHeader.propTypes = {
-  handleScrollIntoView: PropTypes.func.isRequired,
-  refList: PropTypes.shape({
-    aboutEl: PropTypes.node,
-    skillsEl: PropTypes.node,
-    contactEl: PropTypes.node,
-  }),
 }
 
 export default MobileHeader

@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import SocialMedia from 'components/SocialMedia'
+import { SocialMediaProps } from 'pages'
 
 const Wrapper = styled.div`
   position: relative;
@@ -137,7 +137,13 @@ const Footer = styled.div`
   }
 `
 
-const ContactMe = ({ email, phoneNumber, socialMedia }) => {
+type Props = {
+  email: string
+  phoneNumber: string
+  socialMedia: SocialMediaProps[]
+}
+
+const ContactMe:React.FC<Props> = ({ email, phoneNumber, socialMedia }) => {
   const yearCreated = 2019
   const currentYear = new Date().getFullYear()
   const displayYear =
@@ -160,19 +166,6 @@ const ContactMe = ({ email, phoneNumber, socialMedia }) => {
       </Footer>
     </Wrapper>
   )
-}
-
-ContactMe.propTypes = {
-  email: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string,
-  socialMedia: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      code: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ),
 }
 
 export default ContactMe

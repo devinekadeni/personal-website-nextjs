@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 const animate1 = keyframes`
@@ -16,7 +15,7 @@ const animate3 = keyframes`
 
 const hiddenStyle = 'display: none'
 
-const SvgWrapper = styled.svg`
+const SvgWrapper = styled.svg<{ isScrollDown: boolean }>`
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -46,7 +45,14 @@ const SvgWrapper = styled.svg`
   }
 `
 
-const BarMenu = ({ isScrollDown, onToggle, className, isMenuBarForm }) => {
+export type BarMenuProps = {
+  isScrollDown?: boolean
+  onToggle?: () => void
+  className?: string
+  isMenuBarForm?: boolean
+}
+
+const BarMenu:React.FC<BarMenuProps> = ({ isScrollDown = false, onToggle = () => {}, className, isMenuBarForm = false }) => {
   const [toggleAnimate, setToggleAnimate] = useState(false)
 
   useEffect(() => {
@@ -166,19 +172,6 @@ const BarMenu = ({ isScrollDown, onToggle, className, isMenuBarForm }) => {
       />
     </SvgWrapper>
   )
-}
-
-BarMenu.defaultProps = {
-  className: '',
-  onToggle: () => {},
-  isMenuBarForm: false,
-}
-
-BarMenu.propTypes = {
-  onToggle: PropTypes.func,
-  className: PropTypes.string,
-  isMenuBarForm: PropTypes.bool,
-  isScrollDown: PropTypes.bool,
 }
 
 export default BarMenu

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import type { AppProps } from 'next/app'
 import { createGlobalStyle } from 'styled-components'
 import useWindowSize from 'utils/hooks/useWindowSize'
 
@@ -35,9 +35,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   const windowSize = useWindowSize()
-  const isMobile = windowSize.width <= 600
+  const isMobile = (windowSize?.width || 0) <= 600
 
   return (
     <>
@@ -45,11 +45,6 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} isMobile={isMobile} />
     </>
   )
-}
-
-MyApp.propTypes = {
-  Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
-  pageProps: PropTypes.object,
 }
 
 export default MyApp

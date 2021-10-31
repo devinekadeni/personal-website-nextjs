@@ -1,5 +1,4 @@
 import { forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Button from 'components/Button'
@@ -186,7 +185,16 @@ const RightSection = styled.div`
   }
 `
 
-const About = ({ handleScrollIntoView, data }, ref) => {
+type Props = {
+  handleScrollIntoView: () => void
+  data: {
+    linkedinUrl: string,
+    profilePhoto: string,
+    name: string
+  }
+}
+
+export default forwardRef<HTMLDivElement, Props>(({ handleScrollIntoView, data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <LeftSection>
@@ -215,23 +223,4 @@ const About = ({ handleScrollIntoView, data }, ref) => {
       </RightSection>
     </Wrapper>
   )
-}
-
-About.defaultProps = {
-  data: {
-    linkedinUrl: '',
-    profilePhoto: '',
-    name: '',
-  },
-}
-
-About.propTypes = {
-  handleScrollIntoView: PropTypes.func.isRequired,
-  data: PropTypes.shape({
-    linkedinUrl: PropTypes.string,
-    profilePhoto: PropTypes.string,
-    name: PropTypes.string,
-  }),
-}
-
-export default forwardRef(About)
+})

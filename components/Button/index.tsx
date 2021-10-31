@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import { Ref } from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
@@ -28,20 +28,17 @@ const StyledButton = styled.button`
   }
 `
 
-const Button = (props) => {
-  const { label, className } = props
+type Props = {
+  label: string
+  ref?: Ref<HTMLButtonElement>
+} & JSX.IntrinsicElements['button']
 
+const Button:React.FC<Props> = ({ label, className, ...props }) => {
   return (
     <StyledButton className={className} {...props}>
       {props.children || label}
     </StyledButton>
   )
-}
-
-Button.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string,
-  children: PropTypes.node,
 }
 
 export default Button

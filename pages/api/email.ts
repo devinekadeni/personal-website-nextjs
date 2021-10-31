@@ -1,10 +1,11 @@
-const axios = require('axios')
-const sgMail = require('@sendgrid/mail')
+import { NextApiRequest, NextApiResponse } from 'next'
+import axios from 'axios'
+import sgMail from '@sendgrid/mail'
 
-async function postEmail(req, res) {
+async function postEmail(req: NextApiRequest, res: NextApiResponse) {
   const { name, message, email } = req.body
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)
 
   const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
 
@@ -27,7 +28,7 @@ async function postEmail(req, res) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Content-Type', 'application/json')
 
   if (req.method === 'POST') {

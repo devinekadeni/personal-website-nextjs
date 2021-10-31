@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -41,16 +40,16 @@ const Wrapper = styled.div`
   }
 `
 
-const SkillItem = ({ name, icon }) => (
+type Props = {
+  name: string
+  icon: string
+}
+
+const SkillItem:React.FC<Props> = ({ name, icon }) => (
   <Wrapper>
     <img src={icon} alt={`${name}_icon`} />
     <label htmlFor={`${name}_icon`}>{name}</label>
   </Wrapper>
 )
-
-SkillItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-}
 
 export default SkillItem

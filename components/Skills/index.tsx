@@ -1,5 +1,4 @@
 import { forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import SkillItem from './SkillItem'
 
@@ -77,7 +76,17 @@ const IconList = styled.div`
   }
 `
 
-const Skills = ({ data }, ref) => {
+type Skill = {
+  id: number
+  name: string
+  logo: string
+}
+
+type Props = {
+  data: Skill[]
+}
+
+const Skills:React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <h2>Technology that i used</h2>
@@ -94,19 +103,6 @@ const Skills = ({ data }, ref) => {
       </IconList>
     </Wrapper>
   )
-}
-
-Skills.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string,
-      logo: PropTypes.shape({
-        name: PropTypes.string,
-        url: PropTypes.string,
-      }),
-    })
-  ),
 }
 
 export default forwardRef(Skills)

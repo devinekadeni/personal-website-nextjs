@@ -194,7 +194,7 @@ type Props = {
   }
 }
 
-export default forwardRef<HTMLDivElement, Props>(({ handleScrollIntoView, data }, ref) => {
+const About:React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ handleScrollIntoView, data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <LeftSection>
@@ -223,4 +223,6 @@ export default forwardRef<HTMLDivElement, Props>(({ handleScrollIntoView, data }
       </RightSection>
     </Wrapper>
   )
-})
+}
+
+export default forwardRef(About)

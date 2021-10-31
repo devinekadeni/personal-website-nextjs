@@ -172,7 +172,6 @@ export async function getStaticProps() {
     const { data: skillData } = await axios.get(`${process.env.API_HOST}/tech-stacks`)
     const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
 
-    console.log(skillData)
     return {
       props: {
         skillData: skillData,

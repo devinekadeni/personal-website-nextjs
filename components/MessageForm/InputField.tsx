@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const StyledInput = styled.input<{ fieldWidth: number, isError: boolean }>`
   font-family: 'Titillium Web';
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
@@ -42,7 +42,7 @@ const HiddenText = styled.span`
   font-family: 'Titillium Web';
   position: absolute;
   visibility: hidden;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;

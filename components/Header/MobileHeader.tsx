@@ -14,7 +14,7 @@ const MobileHeader:React.FC<HeaderProps> = ({
 }) => {
   const [isMenuShown, setIsMenuShown] = useState(false)
 
-  const handleSelectDirectory = (el?: React.Ref<HTMLDivElement>) => () => {
+  const handleSelectDirectory = (el?: React.Ref<HTMLElement>) => () => {
     setIsMenuShown(false)
     handleScrollIntoView(el)()
   }

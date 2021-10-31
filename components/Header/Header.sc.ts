@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 import BarMenu, { BarMenuProps } from 'icons/BarMenu'
-import SocialMedia, { SocialMediaProps } from 'components/SocialMedia'
+import SocialMedia from 'components/SocialMedia'
+import { SocialMediaProps } from 'pages'
 
 const traverseRight = keyframes`
   0% { transform: translateX(0px); }
@@ -207,9 +208,7 @@ export const MobileWrapper = styled.div<{ isMenuShown: boolean }>`
   }
 `
 
-export const StyledSocialMedia = styled(SocialMedia)<
-  { hidden: boolean } & SocialMediaProps
->`
+export const StyledSocialMedia = styled(SocialMedia)<{ hidden: boolean }>`
   z-index: 1;
   top: 40%;
   transition: opacity 0.7s;

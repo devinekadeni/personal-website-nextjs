@@ -137,7 +137,20 @@ const Footer = styled.div`
   }
 `
 
-const ContactMe = ({ email, phoneNumber, socialMedia }) => {
+type SocialMedia = {
+  id: number
+  code: string
+  name: string
+  url: string
+}
+
+type Props = {
+  email: string
+  phoneNumber: string
+  socialMedia: SocialMedia[]
+}
+
+const ContactMe:React.FC<Props> = ({ email, phoneNumber, socialMedia }) => {
   const yearCreated = 2019
   const currentYear = new Date().getFullYear()
   const displayYear =
@@ -160,19 +173,6 @@ const ContactMe = ({ email, phoneNumber, socialMedia }) => {
       </Footer>
     </Wrapper>
   )
-}
-
-ContactMe.propTypes = {
-  email: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string,
-  socialMedia: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      code: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ),
 }
 
 export default ContactMe

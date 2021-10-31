@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.4.0",
+    "@types/styled-components": "^5.1.15",
     "axios": "^0.21.1",
     "next": "^10.0.4",
     "react": "^17.0.1",
@@ -25,6 +26,7 @@
     "styled-icons": "^10.24.0"
   },
   "devDependencies": {
+    "@types/react": "^17.0.33",
     "babel-plugin-styled-components": "^1.12.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
@@ -34,7 +36,8 @@
     "eslint-plugin-react": "^7.22.0",
     "husky": "^4.3.6",
     "lint-staged": "^10.5.3",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "typescript": "^4.4.4"
   },
   "husky": {
     "hooks": {

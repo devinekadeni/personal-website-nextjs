@@ -1,20 +1,20 @@
-import { SocialMediaItem } from 'components/SocialMedia'
+import { SocialMediaProps } from 'pages'
 import React from 'react'
 
 import DesktopHeader from './DesktopHeader'
 import MobileHeader from './MobileHeader'
 
 export type HeaderProps = {
-  handleScrollIntoView: (el?: React.Ref<HTMLDivElement>) => () => void
+  handleScrollIntoView: (el?: React.Ref<HTMLElement>) => () => void
   refList: {
     aboutEl: React.Ref<HTMLDivElement>
     skillsEl: React.Ref<HTMLDivElement>
-    contactEl: React.Ref<HTMLDivElement>
+    contactEl: React.Ref<HTMLFormElement>
   }
   isScrollDown?: boolean
   handleBarMenu?: (isShown: boolean) => void
   isDarkTheme?: boolean
-  data: SocialMediaItem[]
+  data: SocialMediaProps[]
 }
 
 type Props = {

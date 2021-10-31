@@ -3,6 +3,7 @@ import { Instagram } from '@styled-icons/fa-brands/Instagram'
 import { Github } from '@styled-icons/fa-brands/Github'
 import { Linkedin } from '@styled-icons/fa-brands/Linkedin'
 import { Facebook } from '@styled-icons/fa-brands/Facebook'
+import { SocialMediaProps } from 'pages'
 
 const SOCIAL_MEDIA_ICON = {
   GITHUB: Github,
@@ -11,22 +12,13 @@ const SOCIAL_MEDIA_ICON = {
   INSTAGRAM: Instagram,
 }
 
-export type SocialMediaCode = 'GITHUB' | 'LINKEDIN' | 'FACEBOOK' | 'INSTAGRAM'
-
-export type SocialMediaItem = {
-  id: number
-  code: SocialMediaCode
-  name: string
-  url: string
-}
-
-export type SocialMediaProps = {
-  data: SocialMediaItem[]
+type Props = {
+  data: SocialMediaProps[]
   isFloating?: boolean
   className?: string
 }
 
-const SocialMedia:React.FC<SocialMediaProps> = ({ data, isFloating, className }) => {
+const SocialMedia:React.FC<Props> = ({ data, isFloating, className }) => {
   const handleClickIcon = (url:string) => () => window.open(url)
 
   return (

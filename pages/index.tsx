@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import { useRef, useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
@@ -26,19 +25,48 @@ const Wrapper = styled.div`
   }
 `
 
-const Index = ({ isMobile, skillData, contactData }) => {
+export type Skill = {
+  id: number
+  name: string
+  logo: string
+}
+
+export type SocialMediaCode = 'GITHUB' | 'LINKEDIN' | 'FACEBOOK' | 'INSTAGRAM'
+
+export type SocialMediaProps = {
+  id: number
+  code: SocialMediaCode
+  name: string
+  url: string
+}
+
+export type ContactData = {
+  name: string
+  profilePhoto: string
+  email: string
+  phoneNumber: string
+  socialMedia: SocialMediaProps[]
+}
+
+type Props = {
+  isMobile: boolean
+  skillData: Skill[]
+  contactData: ContactData
+}
+
+const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
   const [socmedShown, setSocmedShown] = useState(true)
   const [isScrollDown, setIsScrollDown] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(false)
 
   const aboutEl = useRef(null)
   const skillsEl = useRef(null)
-  const contactEl = useRef(null)
+  const contactEl = useRef<HTMLFormElement>(null)
   let SCROLL_VAL =
     typeof window !== 'undefined' ? window.pageYOffset || document.body.scrollTop : 0
 
   useEffect(() => {
-    const footer = document.querySelector('.footer-qs')
+    const footer = document.querySelector('.footer-qs') as HTMLDivElement
 
     hideFloatingSocmed(footer)
     window.addEventListener('scroll', () => {
@@ -64,7 +92,7 @@ const Index = ({ isMobile, skillData, contactData }) => {
     SCROLL_VAL = window.pageYOffset
   }
 
-  const hideFloatingSocmed = (footer) => {
+  const hideFloatingSocmed = (footer: HTMLDivElement) => {
     // move social media position into footer (reaching footer section)
     if (footer.getBoundingClientRect().bottom <= window.innerHeight) {
       setSocmedShown(false)
@@ -73,22 +101,23 @@ const Index = ({ isMobile, skillData, contactData }) => {
     }
 
     // set dark theme for header (reaching message form section)
-    if (contactEl.current.getBoundingClientRect().bottom < window.innerHeight) {
+    if ((contactEl?.current?.getBoundingClientRect()?.bottom || 0) < window.innerHeight) {
       setIsDarkTheme(true)
     } else {
       setIsDarkTheme(false)
     }
   }
 
-  const handleScrollIntoView = (refElement) => () => {
+  const handleScrollIntoView = (refElement: typeof aboutEl | typeof skillsEl | typeof contactEl) => () => {
     // to jump (scroll) into message form section
-    refElement.current.scrollIntoView({
+    refElement?.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
     })
-    if ('name' in refElement.current) {
+    if ('name' in (refElement?.current || {})) {
+      const target = refElement?.current as typeof refElement.current & { name: HTMLInputElement }
       setTimeout(() => {
-        refElement.current.name.focus()
+        target.name?.focus()
       }, 800)
     }
   }
@@ -107,13 +136,13 @@ const Index = ({ isMobile, skillData, contactData }) => {
             handleBarMenu={setIsScrollDown}
             isDarkTheme={isDarkTheme}
             isMobile={isMobile}
+            data={contactData.socialMedia}
           />
         </div>
         <div className="content-section">
           <About
             ref={aboutEl}
             handleScrollIntoView={handleScrollIntoView(contactEl)}
-            isMobile={isMobile}
             data={{
               linkedinUrl:
                 contactData.socialMedia?.find((val) => val.code === 'LINKEDIN')?.url ||
@@ -143,6 +172,7 @@ export async function getStaticProps() {
     const { data: skillData } = await axios.get(`${process.env.API_HOST}/tech-stacks`)
     const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
 
+    console.log(skillData)
     return {
       props: {
         skillData: skillData,
@@ -162,46 +192,6 @@ export async function getStaticProps() {
       },
     }
   }
-}
-
-Index.defaultProps = {
-  isMobile: false,
-  skillData: [],
-  contactData: {
-    name: '',
-    profilePhoto: '',
-    email: '',
-    phoneNumber: '',
-    socialMedia: [],
-  },
-}
-
-Index.propTypes = {
-  isMobile: PropTypes.bool,
-  skillData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string,
-      logo: PropTypes.shape({
-        name: PropTypes.string,
-        url: PropTypes.string,
-      }),
-    })
-  ),
-  contactData: PropTypes.shape({
-    name: PropTypes.string,
-    profilePhoto: PropTypes.string,
-    email: PropTypes.string,
-    phoneNumber: PropTypes.string,
-    socialMedia: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        code: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      })
-    ),
-  }),
 }
 
 export default Index

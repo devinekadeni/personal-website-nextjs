@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import SocialMedia, { SocialMediaItem } from 'components/SocialMedia'
+import SocialMedia from 'components/SocialMedia'
+import { SocialMediaProps } from 'pages'
 
 const Wrapper = styled.div`
   position: relative;
@@ -139,7 +140,7 @@ const Footer = styled.div`
 type Props = {
   email: string
   phoneNumber: string
-  socialMedia: SocialMediaItem[]
+  socialMedia: SocialMediaProps[]
 }
 
 const ContactMe:React.FC<Props> = ({ email, phoneNumber, socialMedia }) => {

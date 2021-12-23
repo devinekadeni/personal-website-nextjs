@@ -200,6 +200,7 @@ export async function getStaticProps() {
         contactRes: contactRes.data,
         skillRes: skillRes.data,
       },
+      revalidate: 120,
     }
   } catch (error) {
     return {

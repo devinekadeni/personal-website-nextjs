@@ -3,7 +3,7 @@ import { Instagram } from '@styled-icons/fa-brands/Instagram'
 import { Github } from '@styled-icons/fa-brands/Github'
 import { Linkedin } from '@styled-icons/fa-brands/Linkedin'
 import { Facebook } from '@styled-icons/fa-brands/Facebook'
-import { SocialMediaProps } from 'pages'
+import type { SocialMediaProps } from 'pages'
 
 const SOCIAL_MEDIA_ICON = {
   GITHUB: Github,
@@ -18,15 +18,15 @@ type Props = {
   className?: string
 }
 
-const SocialMedia:React.FC<Props> = ({ data, isFloating, className }) => {
-  const handleClickIcon = (url:string) => () => window.open(url)
+const SocialMedia: React.FC<Props> = ({ data, isFloating, className }) => {
+  const handleClickIcon = (url: string) => () => window.open(url)
 
   return (
     <Wrapper isVertical={isFloating} className={className}>
-      {data.map((socMed) => {
-        const SocmedIcon = SOCIAL_MEDIA_ICON[socMed.code]
+      {data?.map(({ id, attributes }) => {
+        const SocmedIcon = SOCIAL_MEDIA_ICON[attributes.code]
 
-        return <SocmedIcon key={socMed.id} onClick={handleClickIcon(socMed.url)} />
+        return <SocmedIcon key={id} onClick={handleClickIcon(attributes.url)} />
       })}
     </Wrapper>
   )

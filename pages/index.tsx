@@ -25,36 +25,50 @@ const Wrapper = styled.div`
   }
 `
 
+type SingleMedia = {
+  data: {
+    attributes: {
+      url: string
+    }
+  }
+}
+
 export type Skill = {
   id: number
-  name: string
-  logo: string
+  attributes: {
+    name: string
+    logo: SingleMedia
+  }
 }
 
 export type SocialMediaCode = 'GITHUB' | 'LINKEDIN' | 'FACEBOOK' | 'INSTAGRAM'
 
 export type SocialMediaProps = {
   id: number
-  code: SocialMediaCode
-  name: string
-  url: string
+  attributes: {
+    code: SocialMediaCode
+    name: string
+    url: string
+  }
 }
 
 export type ContactData = {
-  name: string
-  profilePhoto: string
-  email: string
-  phoneNumber: string
-  socialMedia: SocialMediaProps[]
+  attributes: {
+    name: string
+    profilePhoto: SingleMedia
+    email: string
+    phoneNumber: string
+    socialMedias: { data: SocialMediaProps[] }
+  }
 }
 
 type Props = {
   isMobile: boolean
-  skillData: Skill[]
-  contactData: ContactData
+  skillRes: Skill[]
+  contactRes: ContactData
 }
 
-const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
+const Index: React.FC<Props> = ({ isMobile, skillRes, contactRes }) => {
   const [socmedShown, setSocmedShown] = useState(true)
   const [isScrollDown, setIsScrollDown] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(false)
@@ -108,14 +122,18 @@ const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
     }
   }
 
-  const handleScrollIntoView = (refElement: typeof aboutEl | typeof skillsEl | typeof contactEl) => () => {
+  const handleScrollIntoView = (
+    refElement: typeof aboutEl | typeof skillsEl | typeof contactEl
+  ) => () => {
     // to jump (scroll) into message form section
     refElement?.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
     })
     if ('name' in (refElement?.current || {})) {
-      const target = refElement?.current as typeof refElement.current & { name: HTMLInputElement }
+      const target = refElement?.current as typeof refElement.current & {
+        name: HTMLInputElement
+      }
       setTimeout(() => {
         target.name?.focus()
       }, 800)
@@ -136,7 +154,7 @@ const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
             handleBarMenu={setIsScrollDown}
             isDarkTheme={isDarkTheme}
             isMobile={isMobile}
-            data={contactData.socialMedia}
+            data={contactRes.attributes?.socialMedias?.data}
           />
         </div>
         <div className="content-section">
@@ -145,21 +163,22 @@ const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
             handleScrollIntoView={handleScrollIntoView(contactEl)}
             data={{
               linkedinUrl:
-                contactData.socialMedia?.find((val) => val.code === 'LINKEDIN')?.url ||
-                '',
-              profilePhoto: contactData.profilePhoto,
-              name: contactData.name,
+                contactRes.attributes?.socialMedias?.data?.find(
+                  ({ attributes }: { attributes: any }) => attributes.code === 'LINKEDIN'
+                )?.attributes?.url || '',
+              profilePhoto: contactRes.attributes?.profilePhoto?.data?.attributes?.url,
+              name: contactRes.attributes?.name,
             }}
           />
-          <Skills ref={skillsEl} data={skillData} />
+          <Skills ref={skillsEl} data={skillRes} />
           <MessageForm ref={contactEl} />
           <ContactMe
-            email={contactData.email}
-            phoneNumber={contactData.phoneNumber}
-            socialMedia={contactData.socialMedia}
+            email={contactRes.attributes?.email}
+            phoneNumber={contactRes.attributes?.phoneNumber}
+            socialMedia={contactRes.attributes?.socialMedias?.data}
           />
           {!isMobile && socmedShown && (
-            <SocialMedia isFloating data={contactData.socialMedia} />
+            <SocialMedia isFloating data={contactRes.attributes?.socialMedias?.data} />
           )}
         </div>
       </Wrapper>
@@ -169,25 +188,29 @@ const Index:React.FC<Props> = ({ isMobile, skillData, contactData }) => {
 
 export async function getStaticProps() {
   try {
-    const { data: skillData } = await axios.get(`${process.env.API_HOST}/tech-stacks`)
-    const { data: contactData } = await axios.get(`${process.env.API_HOST}/contact`)
+    const resPromises = await Promise.all([
+      axios.get(`${process.env.API_HOST}/api/contact?populate=*`),
+      axios.get(`${process.env.API_HOST}/api/tech-stacks?populate=*`),
+    ])
+
+    const [{ data: contactRes }, { data: skillRes }] = resPromises
 
     return {
       props: {
-        skillData: skillData,
-        contactData: contactData.data,
+        contactRes: contactRes.data,
+        skillRes: skillRes.data,
       },
+      revalidate: 120,
     }
   } catch (error) {
     return {
       props: {
-        skillData: [],
-        contactData: {
-          name: '',
-          email: '',
-          phoneNumber: '',
-          socialMedia: [],
+        contactRes: {
+          attributes: {
+            socialMedias: { data: [] },
+          },
         },
+        skillRes: [],
       },
     }
   }

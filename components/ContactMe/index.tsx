@@ -143,7 +143,7 @@ type Props = {
   socialMedia: SocialMediaProps[]
 }
 
-const ContactMe:React.FC<Props> = ({ email, phoneNumber, socialMedia }) => {
+const ContactMe: React.FC<Props> = ({ email, phoneNumber, socialMedia }) => {
   const yearCreated = 2019
   const currentYear = new Date().getFullYear()
   const displayYear =

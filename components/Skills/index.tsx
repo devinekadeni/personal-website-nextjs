@@ -1,3 +1,4 @@
+import type { Skill } from 'pages'
 import { forwardRef } from 'react'
 import styled from 'styled-components'
 import SkillItem from './SkillItem'
@@ -76,17 +77,11 @@ const IconList = styled.div`
   }
 `
 
-type Skill = {
-  id: number
-  name: string
-  logo: string
-}
-
 type Props = {
   data: Skill[]
 }
 
-const Skills:React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ data }, ref) => {
+const Skills: React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ data }, ref) => {
   return (
     <Wrapper ref={ref}>
       <h2>Technology that i used</h2>
@@ -97,8 +92,14 @@ const Skills:React.ForwardRefRenderFunction<HTMLDivElement, Props> = ({ data }, 
         risen, and we as a programmer should adapt to it
       </p>
       <IconList>
-        {data.map(({ id, name, logo }) => {
-          return <SkillItem key={id} icon={logo} name={name} />
+        {data?.map(({ id, attributes }) => {
+          return (
+            <SkillItem
+              key={id}
+              icon={attributes.logo.data.attributes.url}
+              name={attributes.name}
+            />
+          )
         })}
       </IconList>
     </Wrapper>
